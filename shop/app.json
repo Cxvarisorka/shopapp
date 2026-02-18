@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "shop",
+    "slug": "shop",
+    "version": "1.0.0",
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}

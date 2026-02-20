@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" ls-tree HEAD)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" cat-file -p HEAD:.gitmodules)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" rm --cached shop)",
+      "Bash(echo:*)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp/shop\" rev-parse --git-dir)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" add client/ server/)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" status)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" diff --cached --stat -- client/ server/)",
+      "Bash(git -C \"c:/Users/User/Desktop/shopapp\" log --oneline -5)",
+      "Bash(git -C:*)"
+    ]
+  }
+}

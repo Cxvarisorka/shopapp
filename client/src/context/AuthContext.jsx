@@ -2,6 +2,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ export function AuthProvider({ children }) {
 
   async function autoLogin() {
     try {
-      const res = await fetch('/api/auth/auto-login', {
+      const res = await fetch(`${API_URL}/api/auth/auto-login`, {
         method: 'POST',
         credentials: 'include',
       });
@@ -30,7 +32,7 @@ export function AuthProvider({ children }) {
   }
 
   async function login(email, password) {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -44,7 +46,7 @@ export function AuthProvider({ children }) {
     }
 
     if (data.role !== 'admin') {
-      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
       throw new Error('Access denied. Admin accounts only.');
     }
 
@@ -52,7 +54,7 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
     setUser(null);
   }
 

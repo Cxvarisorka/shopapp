@@ -1,30 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { useProducts } from '../context/ProductContext';
 
 export default function Dashboard() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { products, loading, createProduct, deleteProduct } = useProducts();
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  async function fetchProducts() {
-    try {
-      const res = await fetch('/api/products', { credentials: 'include' });
-      const data = await res.json();
-      setProducts(Array.isArray(data) ? data : []);
-    } catch {
-      setProducts([]);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -32,20 +16,7 @@ export default function Dashboard() {
     setSubmitting(true);
 
     try {
-      const res = await fetch('/api/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ name, price: Number(price), description }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || 'Failed to create product');
-      }
-
-      setProducts((prev) => [data, ...prev]);
+      await createProduct(name, price, description);
       setName('');
       setPrice('');
       setDescription('');
@@ -60,11 +31,7 @@ export default function Dashboard() {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      await fetch(`/api/products/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      setProducts((prev) => prev.filter((p) => p._id !== id));
+      await deleteProduct(id);
     } catch {
       alert('Failed to delete product');
     }

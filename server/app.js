@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const dns = require('dns/promises');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 // Routers
 const authRouter = require('./routers/auth.router');
